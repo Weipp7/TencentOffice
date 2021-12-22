@@ -11,14 +11,18 @@ interface IProp {
 }
 
 class Excel extends React.Component<IProp, IState> {
+    headerRef: React.RefObject<HTMLDivElement>;
+    
     constructor (props: IProp) {
         super(props);
-
+        this.headerRef = React.createRef();
     }
 
     render() {
         return (
-            <HeaderHorizontal />
+            <HeaderHorizontal headerRef={this.headerRef}
+                currentPageHorizontalIndex={0} 
+                preloadPageHorizontalNumber={0}/>
         )
     }
 }
