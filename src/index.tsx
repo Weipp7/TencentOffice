@@ -8,7 +8,12 @@ class App extends React.Component {
 
   render() {
     return (
-      <Excel />
+      <div style={{
+        width: "100%",
+        height: 500
+      }}>
+        <Excel />
+      </div>
     )
   }
 }

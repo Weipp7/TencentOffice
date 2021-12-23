@@ -1,8 +1,7 @@
 import React from "react";
 
 import './HeaderCorner.css'
-import '../../Constants'
-import { HeaderHorizontalHeight, HeaderVerticalWidth } from "../../Constants";
+import { HeaderHorizontalHeight, HeaderVerticalWidth } from "../../../Constants";
 
 class HeaderCorner extends React.Component {
 
