@@ -1,5 +1,5 @@
 import React from "react";
-import { ColumnsPerPage, DirectionType, RowsPerPage } from "../../../Constants";
+import { ColumnsPerPage, DirectionType, HeaderHorizontalHeight, HeaderVerticalWidth, PageHeight, PageWidth, RowsPerPage } from "../../../Constants";
 import HeaderCell from "./HeaderCell";
 
 interface IHeaderPageProp {
@@ -16,7 +16,16 @@ class HeaderPage extends React.Component<IHeaderPageProp> {
             cells.push(<HeaderCell key={i} type={type} index={i} />);
         }
         return (
-            <div>
+            <div
+                style={ type === DirectionType.HORIZONTAL ? {
+                    float: "left",
+                    height: HeaderHorizontalHeight,
+                    width: PageWidth
+                } : {
+                    height: PageHeight,
+                    width: HeaderVerticalWidth
+                }}
+            >
                 {cells}
             </div>
         )

@@ -2,7 +2,7 @@ import React from "react";
 import { DirectionType, HeaderVerticalWidth, RowsPerPage } from "../../Constants";
 import CellsContainer from "./Components/CellsContainer";
 import HeaderPage from "./Components/HeaderPage";
-import PlaceHolder from "./Components/PlaceHolder";
+import PlaceHolder from "../PlaceHolder";
 
 interface IHeaderVerticalProp {
     headerRef: React.RefObject<HTMLDivElement>,

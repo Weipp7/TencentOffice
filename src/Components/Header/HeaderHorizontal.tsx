@@ -2,7 +2,7 @@ import React from 'react'
 
 import HeaderCorner from './Components/HeaderCorner';
 import CellsContainer from './Components/CellsContainer';
-import PlaceHolder from './Components/PlaceHolder';
+import PlaceHolder from '../PlaceHolder';
 import { ColumnsPerPage, DirectionType, HeaderHorizontalHeight } from '../../Constants';
 import HeaderPage from './Components/HeaderPage';
 

@@ -1,4 +1,5 @@
 import React from "react";
+import Content from "./Components/Content/Content";
 
 import HeaderHorizontal from './Components/Header/HeaderHorizontal'
 import { HeaderVertical } from "./Components/Header/HeaderVertical";
@@ -15,11 +16,21 @@ interface IProp {
 class Excel extends React.Component<IProp, IState> {
     horizontalHeaderRef: React.RefObject<HTMLDivElement>;
     verticalHeaderRef: React.RefObject<HTMLDivElement>;
+    contentRef: React.RefObject<HTMLDivElement>;
+    
 
     constructor(props: IProp) {
         super(props);
         this.horizontalHeaderRef = React.createRef();
         this.verticalHeaderRef = React.createRef();
+        this.contentRef = React.createRef();
+    }
+
+    handleScroll = () => {
+        let scrollX: number = this.contentRef.current?.scrollLeft!;
+        let scrollY: number = this.contentRef.current?.scrollTop!;
+        this.horizontalHeaderRef.current?.scrollTo(scrollX, 0);
+        this.verticalHeaderRef.current?.scrollTo(0, scrollY);
     }
 
     render() {
@@ -42,7 +53,7 @@ class Excel extends React.Component<IProp, IState> {
                 }}>
                     <div style={{height: "100%", width: HeaderVerticalWidth}}>
                         <HeaderVertical headerRef={this.verticalHeaderRef}
-                            currentPageIndex={6}
+                            currentPageIndex={1}
                             preloadPageNum={2}/>
                     </div>
 
@@ -56,6 +67,14 @@ class Excel extends React.Component<IProp, IState> {
                         }}
                     >
 
+                        <Content 
+                            contentRef={this.contentRef}
+                            currentHorizontalIndex={1}
+                            preloadHorizontalNum={2}
+                            currentVerticalIndex={1}
+                            preloadVerticalNum={2}
+                            onScroll={this.handleScroll}
+                        />
                     </div>
                 </div>
             </div>

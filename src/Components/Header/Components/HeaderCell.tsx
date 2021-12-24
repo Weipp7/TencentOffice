@@ -19,11 +19,15 @@ class HeaderCell extends React.Component<IHeaderCellProps> {
                     height: HeaderHorizontalHeight,
                     width: CellWidth,
                     lineHeight: HeaderHorizontalHeight + "px",
-                    float: "left"
+                    float: "left",
+                    boxSizing: "border-box",
+                    borderRight: "1px solid #dfdfdf"
                 } : {
                     height: CellHeight,
                     width: HeaderVerticalWidth,
-                    lineHeight: CellHeight + "px"
+                    lineHeight: CellHeight + "px",
+                    boxSizing: "border-box",
+                    borderBottom: "1px solid #dfdfdf"
                 }
             }>
                 {

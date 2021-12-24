@@ -1,6 +1,6 @@
 import React from "react";
 
-import { CellHeight, CellWidth, ColumnsPerPage, DirectionType, RowsPerPage } from "../../../Constants";
+import { DirectionType, PageHeight, PageWidth } from "../Constants";
 
 interface IPlaceHolderProp {
     type: DirectionType,
@@ -14,9 +14,9 @@ class PlaceHolder extends React.Component<IPlaceHolderProp> {
             <div style= {type === DirectionType.HORIZONTAL ? {
                 float: "left",
                 height: 1,
-                width: pageNum * ColumnsPerPage * CellWidth,
+                width: pageNum * PageWidth,
             } : {
-                height: pageNum * RowsPerPage * CellHeight,
+                height: pageNum * PageHeight,
                 width: 1
             }
         }></div>
