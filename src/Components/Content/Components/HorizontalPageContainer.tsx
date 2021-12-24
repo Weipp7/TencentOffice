@@ -29,7 +29,7 @@ class HorizontalPageContainer extends React.Component<IHPCProp> {
 
         let pages = [];
         for (let i = startHorizontalPage; i <= endHorizontalPage; i++) {
-            pages.push(<Page horizontalIndex={i} verticalIndex={verticalPageIndex}/>);
+            pages.push(<Page key={i} horizontalIndex={i} verticalIndex={verticalPageIndex}/>);
         }
 
         return (

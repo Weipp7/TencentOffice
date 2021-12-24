@@ -18,7 +18,7 @@ interface IContentState {
 
 class Content extends React.Component<IContentProp, IContentState> {
     render() {
-        const { currentVerticalIndex, preloadVerticalNum } = this.props;
+        const { currentVerticalIndex, preloadVerticalNum, currentHorizontalIndex, preloadHorizontalNum } = this.props;
         // 列占位符所占的page个数
         const PHVerticalPageNum = currentVerticalIndex - preloadVerticalNum - 1 > 0 ?
             currentVerticalIndex - preloadVerticalNum - 1 : 0;
@@ -27,6 +27,18 @@ class Content extends React.Component<IContentProp, IContentState> {
             currentVerticalIndex - preloadVerticalNum : 1;
         // 结束的列page编号
         const endVerticalPage = currentVerticalIndex + preloadVerticalNum;
+
+        let pageRows = [];
+        for (let i = startVerticalPage; i <= endVerticalPage; i++) {
+            pageRows.push(
+                <HorizontalPageContainer 
+                    key={i}
+                    verticalPageIndex={i}
+                    currentHorizontalIndex={currentHorizontalIndex}
+                    preloadHorizontalNum={preloadHorizontalNum}
+                />
+            );
+        }
 
         return (
             <div
@@ -42,8 +54,7 @@ class Content extends React.Component<IContentProp, IContentState> {
 
                 <PlaceHolder type={DirectionType.VERTICAL} pageNum={PHVerticalPageNum} />
 
-                <HorizontalPageContainer verticalPageIndex={1} currentHorizontalIndex={1} preloadHorizontalNum={2}/>
-                <HorizontalPageContainer verticalPageIndex={1} currentHorizontalIndex={1} preloadHorizontalNum={2}/>
+                {pageRows}
             </div>
         )
     }

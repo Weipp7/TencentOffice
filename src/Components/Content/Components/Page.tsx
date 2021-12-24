@@ -37,6 +37,7 @@ class GridHorizontalLine extends React.Component <{
         let lines = [];
         for (let i = 1; i <= this.props.rowsNum; i++) {
             lines.push(<div
+                    key={i}
                     style={{
                         height: CellHeight,
                         width: "100%",
@@ -76,6 +77,7 @@ class GridVerticalLine extends React.Component<{
         let lines = [];
         for (let i = 1; i <= this.props.columnsNum; i++) {
             lines.push(<div
+                    key={i}
                     style={{
                         float: "left",
                         height: "100%",

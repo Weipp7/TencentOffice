@@ -15,7 +15,10 @@ class App extends React.Component {
         left: 0,
         bottom: 0
       }}>
-        <Excel />
+        <Excel 
+          preloadHorizontalNum={2}
+          preloadVerticalNum={2}
+        />
       </div>
     )
   }
