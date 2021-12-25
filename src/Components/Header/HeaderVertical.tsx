@@ -7,7 +7,9 @@ import PlaceHolder from "../PlaceHolder";
 interface IHeaderVerticalProp {
     headerRef: React.RefObject<HTMLDivElement>,
     currentPageIndex: number,
-    preloadPageNum: number
+    preloadPageNum: number,
+    selectedStart: number,
+    selectedEnd: number
 }
 
 interface IHeaderVerticalState {
@@ -15,7 +17,7 @@ interface IHeaderVerticalState {
 }
 
 class HeaderVertical extends React.Component<IHeaderVerticalProp, IHeaderVerticalState> {
-    render() {    
+    render() {
         const { currentPageIndex, preloadPageNum } = this.props;
         // 占位符所占的page个数
         const placeHolderPageNum = currentPageIndex - preloadPageNum - 1 > 0 ? currentPageIndex - preloadPageNum - 1 : 0;
@@ -26,7 +28,8 @@ class HeaderVertical extends React.Component<IHeaderVerticalProp, IHeaderVertica
 
         let pages = [];
         for (let i = startPageIndex; i <= endPageIndex; i++) {
-            pages.push(<HeaderPage key={i} type={DirectionType.VERTICAL} startIndex={RowsPerPage * (i - 1) + 1} />)
+            pages.push(<HeaderPage key={i} type={DirectionType.VERTICAL} startIndex={RowsPerPage * (i - 1) + 1}
+                selectedStart={this.props.selectedStart} selectedEnd={this.props.selectedEnd} />)
         }
 
         return (
@@ -36,16 +39,19 @@ class HeaderVertical extends React.Component<IHeaderVerticalProp, IHeaderVertica
                 background: "rgb(240, 240, 240)",
                 position: "relative"
             }}>
-                
-                <CellsContainer 
-                    type={DirectionType.VERTICAL}
-                    headerRef={this.props.headerRef}
-                    holdPagesNum={endPageIndex}
-                >
-                    <PlaceHolder type={DirectionType.VERTICAL} pageNum={placeHolderPageNum} />
 
-                    {pages}
-                </CellsContainer>
+
+                    <CellsContainer
+                        type={DirectionType.VERTICAL}
+                        headerRef={this.props.headerRef}
+                        holdPagesNum={endPageIndex}
+                    >
+                        <PlaceHolder type={DirectionType.VERTICAL} pageNum={placeHolderPageNum} />
+
+                        {pages}
+                    </CellsContainer>
+
+
             </div>
         )
     }

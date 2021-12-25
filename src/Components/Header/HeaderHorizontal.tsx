@@ -12,7 +12,9 @@ interface IHeaderHorizontalProps {
     // 当前显示的page序号
     currentPageIndex: number,
     // 预加载的page数量
-    preloadPageNum: number
+    preloadPageNum: number,
+    selectedStart: number,
+    selectedEnd: number
 }
 
 interface IHeaderHorizontalState {
@@ -31,7 +33,8 @@ class HeaderHorizontal extends React.Component<IHeaderHorizontalProps, IHeaderHo
 
         let pages = [];
         for (let i = startPageIndex; i <= endPageIndex; i++) {
-            pages.push(<HeaderPage key={i} type={DirectionType.HORIZONTAL} startIndex={ColumnsPerPage * (i - 1) + 1} />)
+            pages.push(<HeaderPage key={i} type={DirectionType.HORIZONTAL} startIndex={ColumnsPerPage * (i - 1) + 1} 
+                selectedStart={this.props.selectedStart} selectedEnd={this.props.selectedEnd}/>)
         }
 
         return (

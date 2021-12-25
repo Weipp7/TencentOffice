@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-import Excel from './Excel'
+import SpreadSheet from './SpreadSheet'
 
 class App extends React.Component<{}> {
     data: Array<Array<any>>;
@@ -26,7 +26,10 @@ class App extends React.Component<{}> {
     }
 
     setData = (x: number, y: number, s: any) => {
-
+        if (this.data[x - 1] === undefined) {
+            this.data[x - 1] = [];
+        }
+        this.data[x - 1][y - 1] = s;
     }
 
     render() {
@@ -38,7 +41,7 @@ class App extends React.Component<{}> {
                 left: 0,
                 bottom: 0
             }}>
-                <Excel
+                <SpreadSheet
                     getData={this.getData}
                     setData={this.setData}
                     preloadHorizontalNum={2}

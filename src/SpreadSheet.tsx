@@ -8,25 +8,32 @@ import { CellHeight, CellWidth, HeaderHorizontalHeight, HeaderVerticalWidth, Pag
 interface IState {
     currentVerticalIndex: number,
     currentHorizontalIndex: number,
-    selectedStartX: number,
-    selectedStartY: number,
-    selectedEndX: number,
-    selectedEndY: number
+
+    // 选择的区域
+    selectedLeft: number,
+    selectedTop: number,
+    selectedRight: number,
+    selectedBottom: number
 }
 
 interface IProp {
+    // 数据接口
     getData: Function,
     setData: Function,
+
     preloadVerticalNum: number,
     preloadHorizontalNum: number
 }
 
-
-class Excel extends React.Component<IProp, IState> {
+class SpreadSheet extends React.Component<IProp, IState> {
+    // 列标ref
     horizontalHeaderRef: React.RefObject<HTMLDivElement>;
+    // 行标ref
     verticalHeaderRef: React.RefObject<HTMLDivElement>;
+    // 内容ref
     contentRef: React.RefObject<HTMLDivElement>;
 
+    // 内容限位，用于检测和触发动态加载
     topSpacing: number;
     bottomSpacing: number;
     leftSpacing: number;
@@ -37,10 +44,10 @@ class Excel extends React.Component<IProp, IState> {
         this.state = {
             currentHorizontalIndex: 1,
             currentVerticalIndex: 1,
-            selectedStartX: 1,
-            selectedStartY: 1,
-            selectedEndX: 1,
-            selectedEndY: 1
+            selectedLeft: 1,
+            selectedTop: 1,
+            selectedRight: 1,
+            selectedBottom: 1
         }
 
         this.horizontalHeaderRef = React.createRef();
@@ -78,9 +85,18 @@ class Excel extends React.Component<IProp, IState> {
         });
     }
 
+    updateSelection = (top: number, bottom: number, left: number, right: number) => {
+        this.setState({
+            selectedTop: top > 0 ? top : 1,
+            selectedBottom: bottom > 0 ? bottom : 1,
+            selectedLeft: left > 0 ? left : 1,
+            selectedRight: right > 0 ? right : 1
+        })
+    }
+
     updateData = (x: number, y: number, s: any) => {
         this.props.setData(x, y, s);
-
+        this.setState({});
     }
 
     /**
@@ -121,6 +137,7 @@ class Excel extends React.Component<IProp, IState> {
         const hHeader = this.horizontalHeaderRef.current!;
         const vHeader = this.verticalHeaderRef.current!;
 
+        // 滚动行标和列标
         let scrollX = content.scrollLeft;
         let scrollY = content.scrollTop;
         hHeader.scrollTo(scrollX, 0);
@@ -141,7 +158,10 @@ class Excel extends React.Component<IProp, IState> {
             }}>
                 <HeaderHorizontal headerRef={this.horizontalHeaderRef}
                     currentPageIndex={currentHorizontalIndex}
-                    preloadPageNum={preloadHorizontalNum} />
+                    preloadPageNum={preloadHorizontalNum}
+                    selectedStart={this.state.selectedLeft}
+                    selectedEnd={this.state.selectedRight}
+                />
 
                 <div style={{
                     position: "absolute",
@@ -151,7 +171,10 @@ class Excel extends React.Component<IProp, IState> {
                     width: "100%"
                 }}>
                     <div style={{ height: "100%", width: HeaderVerticalWidth }}>
-                        <HeaderVertical headerRef={this.verticalHeaderRef}
+                        <HeaderVertical
+                            headerRef={this.verticalHeaderRef}
+                            selectedStart={this.state.selectedTop}
+                            selectedEnd={this.state.selectedBottom}
                             currentPageIndex={currentVerticalIndex}
                             preloadPageNum={preloadVerticalNum} />
                     </div>
@@ -172,8 +195,18 @@ class Excel extends React.Component<IProp, IState> {
                             preloadHorizontalNum={preloadHorizontalNum}
                             currentVerticalIndex={currentVerticalIndex}
                             preloadVerticalNum={preloadVerticalNum}
+
                             onScroll={this.handleScroll}
+
                             getData={this.props.getData}
+                            setData={this.updateData}
+
+                            changeSelection={this.updateSelection}
+
+                            selectedTop={this.state.selectedTop}
+                            selectedBottom={this.state.selectedBottom}
+                            selectedLeft={this.state.selectedLeft}
+                            selectedRight={this.state.selectedRight}
                         />
                     </div>
                 </div>
@@ -182,4 +215,4 @@ class Excel extends React.Component<IProp, IState> {
     }
 }
 
-export default Excel;
+export default SpreadSheet;

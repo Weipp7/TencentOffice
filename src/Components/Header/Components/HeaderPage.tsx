@@ -4,7 +4,9 @@ import HeaderCell from "./HeaderCell";
 
 interface IHeaderPageProp {
     type: DirectionType,
-    startIndex: number
+    startIndex: number,
+    selectedStart: number,
+    selectedEnd: number
 }
 
 class HeaderPage extends React.Component<IHeaderPageProp> {
@@ -13,7 +15,7 @@ class HeaderPage extends React.Component<IHeaderPageProp> {
         const cellsNum = type === DirectionType.HORIZONTAL ? ColumnsPerPage : RowsPerPage;
         let cells = [];
         for (let i = startIndex; i <= startIndex + cellsNum - 1; i++) {
-            cells.push(<HeaderCell key={i} type={type} index={i} />);
+            cells.push(<HeaderCell key={i} type={type} index={i} selectedStart={this.props.selectedStart} selectedEnd={this.props.selectedEnd}/>);
         }
         return (
             <div

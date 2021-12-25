@@ -1,6 +1,6 @@
 // Size of the headers and cells
 export const HeaderHorizontalHeight = 20;
-export const HeaderVerticalWidth = 30;
+export const HeaderVerticalWidth = 40;
 export const CellHeight = 23;
 export const CellWidth = 80;
 
