@@ -3,7 +3,8 @@ import { CellHeight, CellWidth, ColumnsPerPage, PageHeight, PageWidth, RowsPerPa
 
 interface IPageProp {
     horizontalIndex: number,
-    verticalIndex: number
+    verticalIndex: number,
+    getData: Function
 }  
 
 class Page extends React.Component<IPageProp> {
@@ -20,6 +21,7 @@ class Page extends React.Component<IPageProp> {
 
                 <GridHorizontalLine rowsNum={RowsPerPage} />
                 <GridVerticalLine columnsNum={ColumnsPerPage} />
+                <GridValues getData={this.props.getData} horizontalIndex={this.props.horizontalIndex} verticalIndex={this.props.verticalIndex} />
             </div>
         )
     }
@@ -102,6 +104,64 @@ class GridVerticalLine extends React.Component<{
                 }}
             >
                 {this.getLines()}
+            </div>
+        )
+    }
+}
+
+/**
+ * 数据容器
+ */
+class GridValues extends React.Component<{
+    getData: Function,
+    horizontalIndex: number,
+    verticalIndex: number
+}> {
+
+    getDiv = (x: number, y: number, value: any) => (
+        <div
+            key={"x-" + x + "-y-" + y}
+            style={{
+                position: "absolute",
+                left: (x - 1) * CellWidth,
+                top: (y - 1) * CellHeight,
+                height: CellHeight,
+                width: CellWidth - 4,
+                padding: "0px 2px 0px 2px",
+                lineHeight: CellHeight + "px"
+            }}
+        >
+            {value}
+        </div>
+    );
+
+    render() {
+        const {horizontalIndex, getData, verticalIndex} = this.props;
+
+        let values = [];
+        for (let i = 1; i <= ColumnsPerPage; i++) {
+            for (let j = 1; j <= RowsPerPage; j++) {  
+                let v = getData(
+                    (horizontalIndex - 1) * ColumnsPerPage + i,
+                    (verticalIndex - 1) * RowsPerPage + j
+                );
+                if (v !== null) {
+                    values.push(this.getDiv(i, j, v));
+                }
+            }
+        }
+
+        return (
+            <div
+            style={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+            }}
+            >
+                {values}
             </div>
         )
     }

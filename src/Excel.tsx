@@ -7,13 +7,20 @@ import { CellHeight, CellWidth, HeaderHorizontalHeight, HeaderVerticalWidth, Pag
 
 interface IState {
     currentVerticalIndex: number,
-    currentHorizontalIndex: number
+    currentHorizontalIndex: number,
+    selectedStartX: number,
+    selectedStartY: number,
+    selectedEndX: number,
+    selectedEndY: number
 }
 
 interface IProp {
+    getData: Function,
+    setData: Function,
     preloadVerticalNum: number,
     preloadHorizontalNum: number
 }
+
 
 class Excel extends React.Component<IProp, IState> {
     horizontalHeaderRef: React.RefObject<HTMLDivElement>;
@@ -29,7 +36,11 @@ class Excel extends React.Component<IProp, IState> {
         super(props);
         this.state = {
             currentHorizontalIndex: 1,
-            currentVerticalIndex: 1
+            currentVerticalIndex: 1,
+            selectedStartX: 1,
+            selectedStartY: 1,
+            selectedEndX: 1,
+            selectedEndY: 1
         }
 
         this.horizontalHeaderRef = React.createRef();
@@ -55,11 +66,21 @@ class Excel extends React.Component<IProp, IState> {
         this.rightSpacing = (currentHorizontalIndex + preloadHorizontalNum) * PageWidth;
     }
 
+    /**
+     * 根据x, y的位置更新页面信息
+     * @param x 
+     * @param y 
+     */
     useAsCurrent = (x: number, y: number) => {
         this.setState({
             currentHorizontalIndex: Math.floor(x / PageWidth) + 1,
             currentVerticalIndex: Math.floor(y / PageHeight) + 1
         });
+    }
+
+    updateData = (x: number, y: number, s: any) => {
+        this.props.setData(x, y, s);
+
     }
 
     /**
@@ -152,6 +173,7 @@ class Excel extends React.Component<IProp, IState> {
                             currentVerticalIndex={currentVerticalIndex}
                             preloadVerticalNum={preloadVerticalNum}
                             onScroll={this.handleScroll}
+                            getData={this.props.getData}
                         />
                     </div>
                 </div>

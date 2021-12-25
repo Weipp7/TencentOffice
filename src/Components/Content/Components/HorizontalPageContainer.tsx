@@ -9,7 +9,9 @@ interface IHPCProp {
     // 当前显示的page横向序号
     currentHorizontalIndex: number,
     // 预加载横向page数量
-    preloadHorizontalNum: number
+    preloadHorizontalNum: number,
+
+    getData: Function
 }
 
 /**
@@ -29,7 +31,7 @@ class HorizontalPageContainer extends React.Component<IHPCProp> {
 
         let pages = [];
         for (let i = startHorizontalPage; i <= endHorizontalPage; i++) {
-            pages.push(<Page key={i} horizontalIndex={i} verticalIndex={verticalPageIndex}/>);
+            pages.push(<Page key={i} horizontalIndex={i} verticalIndex={verticalPageIndex} getData={this.props.getData}/>);
         }
 
         return (

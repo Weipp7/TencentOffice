@@ -9,12 +9,14 @@ interface IContentProp {
     currentVerticalIndex: number,
     preloadHorizontalNum: number,
     preloadVerticalNum: number,
-    onScroll: React.UIEventHandler<HTMLDivElement>
+    onScroll: React.UIEventHandler<HTMLDivElement>,
+    getData: Function
 }
 
 interface IContentState {
 
 }
+
 
 class Content extends React.Component<IContentProp, IContentState> {
     render() {
@@ -36,6 +38,7 @@ class Content extends React.Component<IContentProp, IContentState> {
                     verticalPageIndex={i}
                     currentHorizontalIndex={currentHorizontalIndex}
                     preloadHorizontalNum={preloadHorizontalNum}
+                    getData={this.props.getData}
                 />
             );
         }
