@@ -46,6 +46,7 @@ class Content extends React.Component<IContentProp, IContentState> {
     }
 
     componentDidMount = () => {
+        document.addEventListener("keypress", this.onKeyPress);
         document.addEventListener("keydown", this.onKeyDown);
         this.inputInitialValue = undefined;
     }
@@ -66,8 +67,8 @@ class Content extends React.Component<IContentProp, IContentState> {
 
         const content = this.props.contentRef.current!;
 
-        const x = Math.floor((e.clientX - content.getBoundingClientRect().x) / CellWidth) + 1;
-        const y = Math.floor((e.clientY - content.getBoundingClientRect().y) / CellHeight) + 1;
+        const x = Math.floor((e.clientX - content.getBoundingClientRect().x + content.scrollLeft) / CellWidth) + 1;
+        const y = Math.floor((e.clientY - content.getBoundingClientRect().y + content.scrollTop) / CellHeight) + 1;
         this.props.changeSelection(y, y, x, x);
 
         window.addEventListener("mousemove", this.onMouseMove);
@@ -90,8 +91,8 @@ class Content extends React.Component<IContentProp, IContentState> {
 
         const content = this.props.contentRef.current!;
 
-        const x = Math.floor((e.clientX - content.getBoundingClientRect().x) / CellWidth) + 1;
-        const y = Math.floor((e.clientY - content.getBoundingClientRect().y) / CellHeight) + 1;
+        const x = Math.floor((e.clientX - content.getBoundingClientRect().x + content.scrollLeft) / CellWidth) + 1;
+        const y = Math.floor((e.clientY - content.getBoundingClientRect().y + content.scrollTop) / CellHeight) + 1;
         this.props.changeSelection(this.props.selectedTop, y, this.props.selectedLeft, x);
     }
 
@@ -102,8 +103,8 @@ class Content extends React.Component<IContentProp, IContentState> {
 
         const content = this.props.contentRef.current!;
 
-        const x = Math.floor((e.clientX - content.getBoundingClientRect().x) / CellWidth) + 1;
-        const y = Math.floor((e.clientY - content.getBoundingClientRect().y) / CellHeight) + 1;
+        const x = Math.floor((e.clientX - content.getBoundingClientRect().x + content.scrollLeft) / CellWidth) + 1;
+        const y = Math.floor((e.clientY - content.getBoundingClientRect().y + content.scrollTop) / CellHeight) + 1;
         this.setState({
             inputColumnIndex: x,
             inputRowIndex: y
@@ -134,29 +135,39 @@ class Content extends React.Component<IContentProp, IContentState> {
     onKeyDown = (e: KeyboardEvent) => {
 
         if (this.state.isInputing) return;
-        e.preventDefault();
         const { selectedTop, selectedLeft } = this.props;
 
         if (e.key === "Enter" || e.key === "ArrowDown") {
+            e.preventDefault();
             this.props.changeSelection(selectedTop + 1, selectedTop + 1, selectedLeft, selectedLeft);
         } else if (e.key === "ArrowUp") {
+            e.preventDefault();
             this.props.changeSelection(selectedTop - 1, selectedTop - 1, selectedLeft, selectedLeft);
         } else if (e.key === "ArrowLeft") {
+            e.preventDefault();
             this.props.changeSelection(selectedTop, selectedTop, selectedLeft - 1, selectedLeft - 1);
         } else if (e.key === "Tab" || e.key === "ArrowRight") {
+            e.preventDefault();
             this.props.changeSelection(selectedTop, selectedTop, selectedLeft + 1, selectedLeft + 1);
         } else if (e.key === "Escape") {
+            e.preventDefault();
+        }
+    }
 
-        }
-        else {
-            this.inputInitialValue = e.key;
-            this.setState({
-                inputRowIndex: this.props.selectedTop,
-                inputColumnIndex: this.props.selectedLeft,
-                isInputing: true
-            });
-            this.props.changeSelection(selectedTop, selectedTop, selectedLeft, selectedLeft);
-        }
+    onKeyPress = (e: KeyboardEvent) => {
+        if (this.state.isInputing) return;
+        
+        e.preventDefault();
+
+        const { selectedTop, selectedLeft } = this.props;
+
+        this.inputInitialValue = e.key;
+        this.setState({
+            inputRowIndex: this.props.selectedTop,
+            inputColumnIndex: this.props.selectedLeft,
+            isInputing: true
+        });
+        this.props.changeSelection(selectedTop, selectedTop, selectedLeft, selectedLeft);
     }
 
     render() {
