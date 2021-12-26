@@ -1,7 +1,5 @@
 import React from "react";
 
-import './HeaderCell.css'
-
 import { CellHeight, CellWidth, DirectionType, HeaderHorizontalHeight, HeaderVerticalWidth } from "../../../Constants";
 import { toName } from "../../../Commons/utils";
 
@@ -14,6 +12,12 @@ interface IHeaderCellProps {
 
 class HeaderCell extends React.Component<IHeaderCellProps> {
     selectedStyle: React.CSSProperties;
+
+    commonStyle: React.CSSProperties = {
+        position: "relative",
+        fontSize: 12,
+        textAlign: "center",
+    }
 
     constructor(props: IHeaderCellProps) {
         super(props);
@@ -38,9 +42,9 @@ class HeaderCell extends React.Component<IHeaderCellProps> {
         const isSelected = index >= Math.min(selectedStart, selectedEnd) && index <= Math.max(selectedStart, selectedEnd);
 
         const selectedStyle = isSelected ? this.selectedStyle : {};
-        
+
         return (
-            <div className="header-cell" 
+            <div 
                 style={type === DirectionType.HORIZONTAL ? {
                     height: HeaderHorizontalHeight,
                     width: CellWidth,
@@ -48,6 +52,7 @@ class HeaderCell extends React.Component<IHeaderCellProps> {
                     float: "left",
                     boxSizing: "border-box",
                     borderRight: "1px solid #dfdfdf",
+                    ...this.commonStyle,
                     ...selectedStyle
                 } : {
                     height: CellHeight,
@@ -55,6 +60,7 @@ class HeaderCell extends React.Component<IHeaderCellProps> {
                     lineHeight: CellHeight + "px",
                     boxSizing: "border-box",
                     borderBottom: "1px solid #dfdfdf",
+                    ...this.commonStyle,
                     ...selectedStyle
                 }
             }>
